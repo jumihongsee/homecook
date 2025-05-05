@@ -1,0 +1,91 @@
+.register {
+  max-width: 450px;
+  margin: 0 auto 100px;
+  input,
+  button {
+    border: none;
+    padding: 20px;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 20px;
+    width: 100%;
+    &:focus {
+      border: 2px solid var(--main-color);
+      outline: none;
+    }
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+
+  input {
+    background: #f2f4fa;
+  }
+  button {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.originSignUp {
+      background: var(--main-color);
+      margin-top: 20px;
+    }
+    &.googleSingIn {
+      background: #eee;
+    }
+    &.githubSignIn {
+      background: #222;
+      color: #fff;
+    }
+    img {
+      height: 25px;
+      margin-right: 10px;
+    }
+  }
+  .logo {
+    padding: 50px 0;
+    text-align: center;
+  }
+  form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    > div {
+      width: 100%;
+      span {
+        display: block;
+        height: 20px;
+        color: rgba(233, 156, 1, 0.902);
+        font-weight: bold;
+        font-size: 12px;
+      }
+    }
+  }
+  .easyLogin {
+    text-align: center;
+    margin: 20px 0 20px;
+    width: 100%;
+    position: relative;
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: #e0e0e0;
+    }
+    &::before {
+      left: 0;
+    }
+    &::after {
+      right: 0;
+    }
+    p {
+      background: #fff;
+      color: #777;
+      font-size: 13px;
+    }
+  }
+}

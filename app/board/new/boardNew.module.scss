@@ -11,7 +11,7 @@
     margin-top: 10px;
     width: 100%;
     &:focus {
-      border: 2px solid #febc49;
+      border: 2px solid var(--main-color);
       outline: none;
     }
     &:focus::placeholder {
@@ -23,7 +23,7 @@
   select {
     height: 50px;
     &.focus {
-      border: 2px solid #febc49;
+      border: 2px solid var(--main-color);
     }
   }
 
@@ -39,7 +39,7 @@
     font-weight: bold;
     font-size: 12px;
     margin-left: 10px;
-    border-bottom: 2px solid #fee349;
+    border-bottom: 2px solid var(--main-color);
   }
 
   .title {
@@ -51,7 +51,7 @@
       font-size: 14px;
       margin-left: 5px;
       strong {
-        background: #fee349;
+        background: var(--main-color);
         padding: 2px;
         border-radius: 2px;
       }
@@ -67,7 +67,7 @@
         flex-direction: column;
         button {
           &.submit {
-            background: #febc49;
+            background: var(--main-color);
             padding: 10px 20px;
             margin-left: auto;
             margin-top: 20px;
@@ -103,7 +103,7 @@
               height: 140px;
               width: 140px;
               display: inline-block;
-              background: #fee349;
+              background: var(--main-color);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -111,7 +111,7 @@
               cursor: pointer;
               margin-right: 10px;
               overflow: hidden;
-              border: 5px solid #fee349;
+              border: 5px solid var(--main-color);
               img {
                 &.uploadImg {
                   height: 100%;
@@ -142,7 +142,7 @@
       .ingredient {
         margin-bottom: 20px;
         button {
-          background: #fee349;
+          background: var(--main-color);
           padding: 5px 15px;
           font-size: 12px;
           margin-left: 10px;

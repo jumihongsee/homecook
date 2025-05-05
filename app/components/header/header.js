@@ -1,8 +1,9 @@
 'use client';
+import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import styles from './header.module.scss';
 
-export default function Header() {
+export default function Header(props) {
   const router = useRouter();
 
   return (
@@ -21,15 +22,46 @@ export default function Header() {
         <li>인기 레시피</li>
         <li
           onClick={() => {
-            router.push('/board/new');
+            props.userData ? router.push('/board/new') : signIn();
           }}
         >
           레시피 등록
         </li>
       </ul>
       <ul>
-        <li>로그인</li>
-        <li>회원가입</li>
+        {props.userData ? (
+          <div className={styles.logIn}>
+            <div className={styles.profile}>
+              <img
+                src={props.userData.image ? `${props.userData.image}` : '/user/default_user.svg'}
+              />
+            </div>
+            <button
+              onClick={() => {
+                signOut();
+              }}
+            >
+              LOGOUT
+            </button>
+          </div>
+        ) : (
+          <>
+            <li
+              onClick={() => {
+                signIn();
+              }}
+            >
+              로그인
+            </li>
+            <li
+              onClick={() => {
+                router.push('/user/register');
+              }}
+            >
+              회원가입
+            </li>
+          </>
+        )}
       </ul>
     </header>
   );

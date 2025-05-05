@@ -10,7 +10,26 @@
   .logo {
     cursor: pointer;
   }
-
+  .profile {
+    width: 30px;
+    height: 30px;
+    background: var(--main-color);
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      height: 100%;
+    }
+  }
+  .logIn {
+    display: flex;
+    button {
+      margin-left: 20px;
+      font-size: 12px;
+    }
+  }
   ul {
     display: flex;
     &:first-child {
