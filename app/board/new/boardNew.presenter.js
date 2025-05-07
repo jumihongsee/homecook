@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import styles from './boardNew.module.scss';
 
-export default function BoardNewUI() {
+export default function BoardNewUI(props) {
   const [ingredient, setIngredient] = useState([{ name: '', quantity: '', gram: '' }]);
   const [step, setStep] = useState([{ step: '' }]);
   const [title, setTitle] = useState('');
@@ -12,13 +12,20 @@ export default function BoardNewUI() {
   const [script, setScripts] = useState('');
   const [imgSrc, setImgSrc] = useState('');
   const [prevImg, setPrevImg] = useState('');
-  const [imgFile, setImgFile] = useState(null);
+  const [imgFile, setImgFile] = useState(null); // 이미지 파일 저장 스테이트
+
+  // delete button
+  const [hoverIngredientIndex, setHoverIngredientIndex] = useState(null);
+  const [hoverStepIndex, setHoverStepIndex] = useState(null);
+
+  console.log(hoverStepIndex);
 
   // 유효성 검사 관련 상태
   const [titleAlert, setTitleAlert] = useState('');
   const [scriptAlert, setScriptAlert] = useState('');
   const [ingredientAlert, setIngredientAlert] = useState('');
   const [stepAlert, setStepAlert] = useState('');
+  const [imgAlert, setImgAlert] = useState('');
   const [themaFocus, setThemaFocus] = useState(false);
   const [timeFocus, setTimeFocus] = useState(false);
   const [difficultyFocus, setDifficultyFocus] = useState(false);
@@ -36,10 +43,21 @@ export default function BoardNewUI() {
     newList[index][field] = value;
     setIngredient(newList);
   };
+  const deleteIngredient = hoverIngredientIndex => {
+    const newList = [...ingredient];
+    newList.splice(hoverIngredientIndex, 1);
+    setIngredient(newList);
+  };
 
   const updateStep = (index, field, value) => {
     const newList = [...step];
     newList[index][field] = value;
+    setStep(newList);
+  };
+
+  const deleteStep = hoverStepIndex => {
+    const newList = [...step];
+    newList.splice(hoverStepIndex, 1);
     setStep(newList);
   };
 
@@ -101,6 +119,13 @@ export default function BoardNewUI() {
       setStepAlert('');
     }
 
+    if (!imgFile) {
+      setImgAlert('✔ 이미지 등록은 필수 항목입니다.');
+      hasError = true;
+    } else {
+      setImgAlert('');
+    }
+
     if (hasError) return;
 
     // 이미지 업로드
@@ -136,6 +161,7 @@ export default function BoardNewUI() {
       difficulty,
       script,
       imgSrc,
+      author: props.author,
     };
 
     await fetch('/api/recipe/new', {
@@ -182,15 +208,16 @@ export default function BoardNewUI() {
                 id="recipeImage"
                 name="recipeImage"
                 onChange={e => {
+                  setImgAlert('');
                   const file = e.target.files[0];
                   if (file.size > 1024 * 1024) {
-                    alert('이미지 용량은 1MB 이하만 가능합니다.');
+                    setImgAlert('✔ 이미지 용량은 1MB 이하만 가능합니다.');
                     e.target.value = '';
                     return;
                   }
                   const allowedTypes = ['image/jpeg', 'image/png'];
                   if (!allowedTypes.includes(file.type)) {
-                    alert('jpg 또는 png 파일만 업로드할 수 있습니다.');
+                    setImgAlert('✔ jpg 또는 png 파일만 업로드할 수 있습니다.');
                     e.target.value = '';
                     return;
                   }
@@ -198,6 +225,7 @@ export default function BoardNewUI() {
                   setPrevImg(URL.createObjectURL(file));
                 }}
               />
+              {imgAlert && <span className={styles.alert}>{imgAlert}</span>}
             </div>
             <div>
               <div>
@@ -294,7 +322,29 @@ export default function BoardNewUI() {
             </button>
             {ingredientAlert && <span className={styles.alert}>{ingredientAlert}</span>}
             {ingredient.map((item, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                className={`${styles.ingredientWrapper} ${hoverIngredientIndex === index ? styles.focus : ''}`}
+                onMouseEnter={() => {
+                  if (index === 0) return;
+                  setHoverIngredientIndex(index);
+                }}
+                onMouseLeave={() => {
+                  setHoverIngredientIndex(null);
+                }}
+              >
+                {hoverIngredientIndex === index && ( // 마우스 오버한 인덱스와 현재 인덱스 값이 같을때 버튼 보여줌
+                  <button
+                    type="button"
+                    className={styles.delete}
+                    onClick={() => {
+                      deleteIngredient(index);
+                    }}
+                  >
+                    <img src="/board/close.png" />
+                  </button>
+                )}
+
                 <input
                   type="text"
                   name="name"
@@ -334,12 +384,34 @@ export default function BoardNewUI() {
               {stepAlert && <span className={styles.alert}>{stepAlert}</span>}
             </label>
             {step.map((item, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                onMouseEnter={() => {
+                  if (index === 0) return;
+                  setHoverStepIndex(index);
+                }}
+                onMouseLeave={() => {
+                  setHoverStepIndex(null);
+                }}
+              >
+                {hoverStepIndex === index && (
+                  <button
+                    type="button"
+                    className={styles.deleteStep}
+                    onClick={() => {
+                      deleteStep(index);
+                    }}
+                  >
+                    <img src="/board/close.png" />
+                  </button>
+                )}
+
                 <div className={styles.stepNumber}>{index + 1}</div>
                 <textarea
                   name="step"
                   placeholder="예시) 콩나물을 물에 가볍게 씻어서 준비해 주세요."
                   value={item.step}
+                  className={hoverStepIndex === index ? styles.focus : ''}
                   onChange={e => {
                     setStepAlert('');
                     updateStep(index, 'step', e.target.value);
@@ -347,7 +419,7 @@ export default function BoardNewUI() {
                 />
               </div>
             ))}
-            <button onClick={addStep} type="button">
+            <button className={styles.addButton} onClick={addStep} type="button">
               + 순서 추가하기
             </button>
           </div>

@@ -33,7 +33,7 @@ export default function Header(props) {
           <div className={styles.logIn}>
             <div className={styles.profile}>
               <img
-                src={props.userData.image ? `${props.userData.image}` : '/user/default_user.svg'}
+                src={props.userData.image ? `${props.userData?.image}` : '/user/default_user.svg'}
               />
             </div>
             <button

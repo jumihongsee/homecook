@@ -1,0 +1,15 @@
+.boardDeatil {
+  padding: var(--main-width-padding);
+  .title {
+    padding: var(--title-padding);
+    display: flex;
+    align-items: center;
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .recipeWrapper {
+    border: 1px solid #000;
+  }
+}
