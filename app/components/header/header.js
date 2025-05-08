@@ -2,12 +2,25 @@
 import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import styles from './header.module.scss';
+import { useEffect, useState } from 'react';
 
 export default function Header(props) {
   const router = useRouter();
+  const [headerFix, setHeaderFix] = useState(false);
+
+  useEffect(() => {
+    function scroll() {
+      if (window.scrollY > 25) {
+        setHeaderFix(true);
+      } else {
+        setHeaderFix(false);
+      }
+    }
+    window.addEventListener('scroll', scroll);
+  }, []);
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${headerFix && styles.fixed}`}>
       <div className={styles.logo} onClick={() => router.push('/')}>
         로고
       </div>

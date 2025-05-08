@@ -1,15 +1,202 @@
-.boardDeatil {
+.boardDetail {
   padding: var(--main-width-padding);
-  .title {
-    padding: var(--title-padding);
-    display: flex;
-    align-items: center;
-    h2 {
-      font-size: 20px;
-    }
-  }
 
   .recipeWrapper {
-    border: 1px solid #000;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    .leftRecipeInfo {
+      width: 33vw;
+      padding: 20px;
+
+      height: calc(100vh - 100px);
+      position: fixed;
+      left: 10vw;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .imgBox {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 100%;
+        }
+      }
+      .simpleInfo {
+        width: 100%;
+        display: flex;
+        margin-top: 20px;
+        align-items: center;
+        .user {
+          display: flex;
+          margin-right: 20px;
+          div {
+            overflow: hidden;
+            img {
+              &.defaultImg {
+                height: 100%;
+              }
+              &.fullImage {
+                width: 100%;
+                height: auto;
+              }
+            }
+          }
+
+          div {
+            display: flex;
+            justify-content: space-between;
+            &:first-child {
+              width: 40px;
+              height: 40px;
+
+              border-radius: 5px;
+              background: var(--main-color);
+            }
+            &:last-child {
+              display: flex;
+              flex-direction: column;
+              margin-left: 10px;
+              padding: 2px 0;
+              h2 {
+                font-size: 15px;
+              }
+              p {
+                font-size: 13px;
+              }
+            }
+          }
+        }
+        .tag {
+          display: flex;
+          height: 40px;
+          div {
+            height: 100%;
+            background: var(--sub-color);
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 10px;
+            border-radius: 5px;
+          }
+        }
+        .likes {
+          display: flex;
+          height: 40px;
+          background: var(--sub-color);
+          padding: 10px;
+          border-radius: 5px;
+          img {
+            height: 20px;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .rightRecipeInfo {
+      width: 47vw;
+      background: var(--sub-color);
+      margin-top: 60px;
+      border-radius: 10px;
+      padding: 0 20px;
+      > div {
+        padding: 35px 0;
+        border-bottom: 1px solid #dadada;
+        &:last-child {
+          border: none;
+        }
+        &.topTitle {
+          h2 {
+            font-size: 18px;
+            font-weight: bold;
+          }
+          p {
+            font-size: 15px;
+            margin-top: 10px;
+            color: #333;
+          }
+        }
+        &.ingredients,
+        &.step {
+          > div {
+            &:first-child {
+              display: flex;
+              align-items: center;
+              img {
+                width: 15px;
+                height: 15px;
+                margin-right: 5px;
+              }
+              h2 {
+                font-size: 15px;
+              }
+            }
+          }
+        }
+
+        &.ingredients {
+          .ingredientBox {
+            display: flex;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            .item {
+              // border: 1px solid #000;
+
+              border-radius: 10px;
+              background: #ffffff;
+              padding: 10px;
+              margin-right: 15px;
+              margin-top: 15px;
+              h2 {
+                font-size: 16px;
+              }
+              p {
+                font-size: 12px;
+                margin-top: 5px;
+              }
+            }
+          }
+        }
+
+        &.step {
+          .stepBox {
+            > div {
+              display: flex;
+              align-items: flex-start;
+              margin-top: 30px;
+              .number {
+                background: var(--main-color);
+                width: 35px;
+                height: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 5px;
+                font-weight: bold;
+                font-size: 14px;
+              }
+              .stepDetail {
+                width: calc(100% - 50px);
+                background: #fff;
+                margin-left: 20px;
+                padding: 15px 20px;
+                border-radius: 5px;
+                font-size: 15px;
+                line-height: 2;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

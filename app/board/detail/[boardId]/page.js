@@ -4,11 +4,16 @@ import BoardDetailUI from './boardDetail.presenter';
 
 export default async function BoardDetail({ params }) {
   const { boardId } = await params;
-  console.log(boardId);
 
   const db = (await connectDB).db('homecook');
   const data = await db.collection('recipe').findOne({ _id: new ObjectId(boardId) });
-  console.log(data);
+  let userInfo = '';
 
-  return <BoardDetailUI data={data} />;
+  console.log(data);
+  if (data) {
+    userInfo = await db.collection('users').findOne({ email: data.author });
+  }
+  console.log(userInfo);
+
+  return <BoardDetailUI data={data} userName={userInfo.name} userImage={userInfo.image} />;
 }

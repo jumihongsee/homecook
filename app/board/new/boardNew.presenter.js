@@ -1,8 +1,11 @@
 'use client';
 import { use, useState } from 'react';
 import styles from './boardNew.module.scss';
+import { useRouter } from 'next/navigation';
 
 export default function BoardNewUI(props) {
+  const router = useRouter();
+
   const [ingredient, setIngredient] = useState([{ name: '', quantity: '', gram: '' }]);
   const [step, setStep] = useState([{ step: '' }]);
   const [title, setTitle] = useState('');
@@ -64,6 +67,7 @@ export default function BoardNewUI(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     let hasError = false;
+    let imgUrl = '';
 
     // 유효성 검사
     if (!title.trim()) {
@@ -145,12 +149,14 @@ export default function BoardNewUI(props) {
       });
 
       if (uploadResult.ok) {
-        setImgSrc(s3Data.url + '/' + fileName);
+        // setImgSrc(s3Data.url + '/' + fileName);
+        imgUrl = s3Data.url + '/' + fileName;
       } else {
         alert('이미지 업로드 실패');
         return;
       }
     }
+    console.log(imgUrl);
 
     const data = {
       ingredient,
@@ -160,7 +166,7 @@ export default function BoardNewUI(props) {
       time,
       difficulty,
       script,
-      imgSrc,
+      imgSrc: imgUrl,
       author: props.author,
     };
 
@@ -169,9 +175,13 @@ export default function BoardNewUI(props) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     })
-      .then(r => {
+      .then(async r => {
         if (r.ok) {
-          // alert('레시피 등록 성공!');
+          const res = await r.json();
+          const boardId = res.id;
+          if (boardId) {
+            router.push(`/board/detail/${boardId}`);
+          }
         } else {
           // alert('레시피 등록 실패');
         }
@@ -258,6 +268,7 @@ export default function BoardNewUI(props) {
                   </option>
                   <option value="simple">간단요리</option>
                   <option value="diet">다이어트</option>
+                  <option value="vegan">비건요리</option>
                   <option value="ramen">라면변신</option>
                   <option value="drink">혼술안주</option>
                 </select>
