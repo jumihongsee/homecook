@@ -1,12 +1,31 @@
+import LikeButton from '@/app/components/elements/likeButton';
 import styles from './boardDetail.module.scss';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { connectDB } from '@/util/database';
 
-export default function BoardDetailUI(props) {
+export default async function BoardDetailUI(props) {
+  const session = await getServerSession(authOptions);
+  const db = (await connectDB).db('homecook');
+  let loginUser = '';
+  if (session) {
+    loginUser = await db.collection('users').findOne({
+      email: session.user.email,
+    });
+  }
+  const likesBoardData = loginUser.likesBoard;
+  // 유저의 좋아요 여부 확인 > likebutton 으로 상태값 전달
+  const likesStatus = likesBoardData?.includes(props.boardId);
+
   return (
     <section className={styles.boardDetail}>
       <div className={styles.recipeWrapper}>
         <div className={styles.leftRecipeInfo}>
           <div className={styles.imgBox}>
-            <img alt="레시피 이미지" src={props.data?.imgSrc} />
+            <img
+              alt="레시피 이미지"
+              src={props.data?.imgSrc ? props.data?.imgSrc : '/user/default_user.svg'}
+            />
           </div>
           <div className={styles.simpleInfo}>
             <div className={styles.user}>
@@ -41,8 +60,11 @@ export default function BoardDetailUI(props) {
               <div># {props.data?.time}분이내</div>
             </div>
             <div className={styles.likes}>
-              <img src="/board/heart.png" alt="좋아요 이미지" />
-              <p>20</p>
+              <LikeButton
+                boardId={props.boardId}
+                likes={props.data.likes}
+                likesStatus={likesStatus}
+              />
             </div>
           </div>
         </div>

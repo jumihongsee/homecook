@@ -5,6 +5,7 @@ import Footer from './components/footer/footer';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 import { connectDB } from '@/util/database';
+import AuthProvider from './components/provider/authProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -39,7 +40,8 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header userData={userData} />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
+
         {/* <Footer /> */}
       </body>
     </html>

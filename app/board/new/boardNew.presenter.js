@@ -168,6 +168,7 @@ export default function BoardNewUI(props) {
       script,
       imgSrc: imgUrl,
       author: props.author,
+      likes: 0,
     };
 
     await fetch('/api/recipe/new', {
