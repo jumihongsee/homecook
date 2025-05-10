@@ -3,6 +3,7 @@ import styles from './boardDetail.module.scss';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { connectDB } from '@/util/database';
+import BoardComment from './comment/boardDetailComment';
 
 export default async function BoardDetailUI(props) {
   const session = await getServerSession(authOptions);
@@ -103,6 +104,7 @@ export default async function BoardDetailUI(props) {
               ))}
             </div>
           </div>
+          <BoardComment boardId={props.boardId} />
         </div>
       </div>
     </section>
