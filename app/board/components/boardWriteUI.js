@@ -1,10 +1,14 @@
 'use client';
 import { use, useState } from 'react';
-import styles from './boardNew.module.scss';
+import styles from './boardWrite.module.scss';
 import { useRouter } from 'next/navigation';
 
-export default function BoardNewUI(props) {
+export default function BoardWriteUI(props) {
   const router = useRouter();
+
+  // 추가 isEdit
+  const [isEdit, setIsEdit] = useState(props.isEdit);
+  console.log(isEdit);
 
   const [ingredient, setIngredient] = useState([{ name: '', quantity: '', gram: '' }]);
   const [step, setStep] = useState([{ step: '' }]);
@@ -20,8 +24,6 @@ export default function BoardNewUI(props) {
   // delete button
   const [hoverIngredientIndex, setHoverIngredientIndex] = useState(null);
   const [hoverStepIndex, setHoverStepIndex] = useState(null);
-
-  console.log(hoverStepIndex);
 
   // 유효성 검사 관련 상태
   const [titleAlert, setTitleAlert] = useState('');
@@ -138,7 +140,6 @@ export default function BoardNewUI(props) {
       const res = await fetch(`/api/recipe/image/new?file=${fileName}`);
       const s3Data = await res.json();
 
-      console.log(s3Data);
       const formData = new FormData();
       Object.entries({ ...s3Data.fields, file: imgFile }).forEach(([key, value]) => {
         formData.append(key, value);

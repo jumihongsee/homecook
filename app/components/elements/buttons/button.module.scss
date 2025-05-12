@@ -1,0 +1,12 @@
+button {
+  &.likeButton {
+    display: flex;
+  }
+  &.edit {
+    background-color: var(--main-color);
+  }
+  &.delete {
+    margin-left: 10px;
+    background-color: var(--sub-color);
+  }
+}

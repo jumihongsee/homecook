@@ -1,9 +1,11 @@
-import LikeButton from '@/app/components/elements/likeButton';
+import LikeButton from '@/app/components/elements/buttons/likeButton';
 import styles from './boardDetail.module.scss';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { connectDB } from '@/util/database';
 import BoardComment from './comment/boardDetailComment';
+import EditButton from '@/app/components/elements/buttons/recipeEditButton';
+import DeleteButton from '@/app/components/elements/buttons/recipeDeleteButton';
 
 export default async function BoardDetailUI(props) {
   const session = await getServerSession(authOptions);
@@ -18,6 +20,8 @@ export default async function BoardDetailUI(props) {
   // 유저의 좋아요 여부 확인 > likebutton 으로 상태값 전달
   const likesStatus = likesBoardData?.includes(props.boardId);
 
+  // 레시피등록 유저 = 현재로그인유저 > 레시피 삭제
+  // console.log(props.boardId);
   return (
     <section className={styles.boardDetail}>
       <div className={styles.recipeWrapper}>
@@ -27,6 +31,10 @@ export default async function BoardDetailUI(props) {
               alt="레시피 이미지"
               src={props.data?.imgSrc ? props.data?.imgSrc : '/user/default_user.svg'}
             />
+            <div className={styles.buttons}>
+              <EditButton />
+              <DeleteButton boardId={props.boardId} imgSrc={props.data?.imgSrc} />
+            </div>
           </div>
           <div className={styles.simpleInfo}>
             <div className={styles.user}>

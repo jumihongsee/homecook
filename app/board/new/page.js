@@ -1,10 +1,12 @@
-import BoardNewUI from './boardNew.presenter';
+// import BoardNewUI from './boardNew.presenter';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
+import BoardWriteUI from '../components/boardWriteUI';
 
 export default async function BoardNewContainer() {
   let session = await getServerSession(authOptions);
   let userEmail = session?.user.email;
 
-  return <BoardNewUI author={userEmail} />;
+  // return <BoardNewUI author={userEmail} />;
+  return <BoardWriteUI author={userEmail} isEdit={false} />;
 }

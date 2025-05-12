@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import styles from './likeButton.module.scss';
+import styles from './button.module.scss';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -20,6 +20,7 @@ export default function LikeButton(props) {
 
     fetch('/api/recipe/like', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         boardId: props.boardId,
         status: likeInvert,
@@ -28,6 +29,7 @@ export default function LikeButton(props) {
     }).then(async r => {
       const res = await r.json();
       setLikeCount(res.likes);
+      console.log(res);
     });
   };
 
