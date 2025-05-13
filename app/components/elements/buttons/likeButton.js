@@ -13,8 +13,6 @@ export default function LikeButton(props) {
   // 미로그인시 session.data = null
   const session = useSession();
 
-  console.log(like);
-
   const handleLike = likeInvert => {
     if (!session.data) return;
 

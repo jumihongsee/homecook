@@ -1,14 +1,19 @@
 'use client';
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import styles from './boardWrite.module.scss';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { RecipeSubmit } from '@/app/components/util/recipeSubmit';
 
 export default function BoardWriteUI(props) {
   const router = useRouter();
 
-  // 추가 isEdit
+  // boardId 받아오기 (* client 컴포넌트에서는  params 쓰는건 적절치 않을 수 있음)
+  // usePathname 사용 해서 조각내서 사용
+  const pathname = usePathname();
+  const editBoardId = pathname.split('/')[3];
+
   const [isEdit, setIsEdit] = useState(props.isEdit);
-  console.log(isEdit);
+  const [editData, setEditData] = useState();
 
   const [ingredient, setIngredient] = useState([{ name: '', quantity: '', gram: '' }]);
   const [step, setStep] = useState([{ step: '' }]);
@@ -66,153 +71,91 @@ export default function BoardWriteUI(props) {
     setStep(newList);
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    let hasError = false;
-    let imgUrl = '';
+  // 게시글 수정일때 > API에 데이터 요청 후 가져와서 input/textaread에 꽂아넣음
+  // isEdit가 감지 될때마다 + isEdit가 true(수정) 상태일때  useEffect 사용해서 fetch 보내기.
 
-    // 유효성 검사
-    if (!title.trim()) {
-      setTitleAlert('✔ 레시피 이름을 입력해주세요');
-      hasError = true;
-    } else {
-      setTitleAlert('');
-    }
-
-    if (!script.trim()) {
-      setScriptAlert('✔ 레시피 소개를 입력해주세요');
-      hasError = true;
-    } else {
-      setScriptAlert('');
-    }
-
-    if (!thema) {
-      setThemaFocus(true);
-      hasError = true;
-    } else {
-      setThemaFocus(false);
-    }
-
-    if (!time) {
-      setTimeFocus(true);
-      hasError = true;
-    } else {
-      setTimeFocus(false);
-    }
-
-    if (!difficulty) {
-      setDifficultyFocus(true);
-      hasError = true;
-    } else {
-      setDifficultyFocus(false);
-    }
-
-    const emptyIngredient = ingredient.findIndex(
-      item => !item.name.trim() || !item.quantity.trim() || !item.gram.trim()
-    );
-    if (emptyIngredient !== -1) {
-      setIngredientAlert(`✔ ${emptyIngredient + 1} 번째 재료 정보를 모두 입력해 주세요`);
-      hasError = true;
-    } else {
-      setIngredientAlert('');
-    }
-
-    const emptyStep = step.findIndex(item => !item.step.trim());
-    if (emptyStep !== -1) {
-      setStepAlert(`✔ ${emptyStep + 1} 번째 요리 순서 정보를 입력해 주세요`);
-      hasError = true;
-    } else {
-      setStepAlert('');
-    }
-
-    if (!imgFile) {
-      setImgAlert('✔ 이미지 등록은 필수 항목입니다.');
-      hasError = true;
-    } else {
-      setImgAlert('');
-    }
-
-    if (hasError) return;
-
-    // 이미지 업로드
-    if (imgFile) {
-      const fileName = encodeURIComponent(imgFile.name);
-      const res = await fetch(`/api/recipe/image/new?file=${fileName}`);
-      const s3Data = await res.json();
-
-      const formData = new FormData();
-      Object.entries({ ...s3Data.fields, file: imgFile }).forEach(([key, value]) => {
-        formData.append(key, value);
+  useEffect(() => {
+    if (isEdit === true) {
+      fetch(`/api/recipe/list?boardId=${editBoardId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      }).then(async r => {
+        const res = await r.json();
+        setEditData(res.data);
       });
-
-      const uploadResult = await fetch(s3Data.url, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (uploadResult.ok) {
-        // setImgSrc(s3Data.url + '/' + fileName);
-        imgUrl = s3Data.url + '/' + fileName;
-      } else {
-        alert('이미지 업로드 실패');
-        return;
-      }
     }
-    console.log(imgUrl);
+  }, [isEdit]);
 
-    const data = {
-      ingredient,
-      step,
-      title,
-      thema,
-      time,
-      difficulty,
-      script,
-      imgSrc: imgUrl,
-      author: props.author,
-      likes: 0,
-    };
-
-    await fetch('/api/recipe/new', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-      .then(async r => {
-        if (r.ok) {
-          const res = await r.json();
-          const boardId = res.id;
-          if (boardId) {
-            router.push(`/board/detail/${boardId}`);
-          }
-        } else {
-          // alert('레시피 등록 실패');
-        }
-      })
-      .catch(err => {
-        console.error('에러 발생:', err);
-      });
-  };
+  // isEdit이 true 일때만 배열에 수정 데이터 할당.
+  useEffect(() => {
+    if (!editData || !isEdit) return;
+    if (isEdit && editData?.ingredient) {
+      setIngredient(editData.ingredient);
+    }
+    if (isEdit && editData?.step) {
+      setStep(editData.step);
+    }
+    setTitle(editData?.title);
+    setThema(editData?.thema);
+    setTime(editData?.time);
+    setDifficulty(editData?.difficulty);
+    setScripts(editData?.script);
+    setPrevImg(editData?.imgSrc);
+    setIngredient(editData?.ingredient);
+    setStep(editData?.step);
+  }, [editData]);
 
   return (
     <section className={styles.boardNew}>
       <div className={styles.title}>
         <h2>
-          레시피등록
+          레시피 {isEdit ? '수정' : '등록'}
           <span>
             {'___'}님 만의 <strong>황금</strong> 레시피를 등록해 보세요
           </span>
         </h2>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={e =>
+          RecipeSubmit({
+            e,
+            isEdit,
+            editData,
+            imgFile,
+            ingredient,
+            step,
+            title,
+            thema,
+            time,
+            difficulty,
+            script,
+            author: props.author,
+            router,
+            editBoardId,
+            setTitleAlert,
+            setScriptAlert,
+            setThemaFocus,
+            setTimeFocus,
+            setDifficultyFocus,
+            setIngredientAlert,
+            setStepAlert,
+            setImgAlert,
+          })
+        }
+        // onSubmit={handleSubmit}
+      >
         <div className={styles.recipe}>
           <div className={styles.recipeInfo}>
             <div className={styles.image}>
               <label className={styles.recipeImage} htmlFor="recipeImage">
-                {prevImg ? (
-                  <img className={styles.uploadImg} src={prevImg} />
+                {prevImg || editData?.imgSrc ? (
+                  <img
+                    className={styles.uploadImg}
+                    src={prevImg || editData?.imgSrc}
+                    alt="업로드된 이미지"
+                  />
                 ) : (
-                  <img src={'/board/camera.png'} />
+                  <img src={'/board/camera.png'} alt="기본 이미지" />
                 )}
               </label>
               <input
@@ -248,6 +191,7 @@ export default function BoardWriteUI(props) {
                 <input
                   type="text"
                   name="title"
+                  // value={isEdit ? (editData?.title ?? '') : title}
                   value={title}
                   onChange={e => {
                     setTitleAlert('');
@@ -260,6 +204,7 @@ export default function BoardWriteUI(props) {
                 <select
                   id="thema"
                   name="thema"
+                  // value={isEdit ? (editData?.thema ?? '') : thema}
                   value={thema}
                   className={themaFocus ? styles.focus : ''}
                   onChange={e => {
@@ -278,6 +223,7 @@ export default function BoardWriteUI(props) {
                 <select
                   id="time"
                   name="time"
+                  // value={isEdit ? (editData?.time ?? '') : time}
                   value={time}
                   className={timeFocus ? styles.focus : ''}
                   onChange={e => {
@@ -297,6 +243,7 @@ export default function BoardWriteUI(props) {
                 <select
                   id="difficulty"
                   name="difficulty"
+                  // value={isEdit ? (editData?.difficulty ?? '') : difficulty}
                   value={difficulty}
                   className={difficultyFocus ? styles.focus : ''}
                   onChange={e => {
@@ -322,6 +269,7 @@ export default function BoardWriteUI(props) {
             <textarea
               name="script"
               placeholder="레시피에 대한 간단한 소개문구를 작성해 주세요"
+              // value={isEdit ? (editData?.script ?? '') : script}
               value={script}
               onChange={e => {
                 setScriptAlert('');
@@ -438,8 +386,12 @@ export default function BoardWriteUI(props) {
             </button>
           </div>
           <button className={styles.submit} type="submit">
-            레시피 등록
+            레시피 {isEdit ? '수정' : '등록'}
           </button>
+          git commit -m "(추가) 게시글 등록/수정 기능 완성 및 코드 리팩토링 - 게시글 등록/수정 기능
+          통합 및 recipeSubmit 유틸로 분리 - 이미지 수정시 기존 이미지 삭제 후 새 이미지 업로드 처리
+          - 게시글 수정시 API 구현(PUT 메서드 + 쿼리스트링 활용) - UI 컴포넌트 내 onSubmit에서 유틸
+          함수 호출 방식 적용 - 코드 길이 최적화 및 가독성 향상"
         </div>
         <div className={styles.guide}>
           <h1>🍳 레시피 등록 가이드</h1>

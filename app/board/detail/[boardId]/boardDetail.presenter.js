@@ -21,7 +21,9 @@ export default async function BoardDetailUI(props) {
   const likesStatus = likesBoardData?.includes(props.boardId);
 
   // 레시피등록 유저 = 현재로그인유저 > 레시피 삭제
-  // console.log(props.boardId);
+  // console.log(loginUser.email);
+  // console.log(props.data.author);
+
   return (
     <section className={styles.boardDetail}>
       <div className={styles.recipeWrapper}>
@@ -31,10 +33,12 @@ export default async function BoardDetailUI(props) {
               alt="레시피 이미지"
               src={props.data?.imgSrc ? props.data?.imgSrc : '/user/default_user.svg'}
             />
-            <div className={styles.buttons}>
-              <EditButton />
-              <DeleteButton boardId={props.boardId} imgSrc={props.data?.imgSrc} />
-            </div>
+            {props.data?.author === loginUser.email && (
+              <div className={styles.buttons}>
+                <EditButton boardId={props.boardId} editData={props.data} />
+                <DeleteButton boardId={props.boardId} imgSrc={props.data?.imgSrc} />
+              </div>
+            )}
           </div>
           <div className={styles.simpleInfo}>
             <div className={styles.user}>
