@@ -20,19 +20,12 @@ export default async function BoardDetailUI(props) {
   // 유저의 좋아요 여부 확인 > likebutton 으로 상태값 전달
   const likesStatus = likesBoardData?.includes(props.boardId);
 
-  // 레시피등록 유저 = 현재로그인유저 > 레시피 삭제
-  // console.log(loginUser.email);
-  // console.log(props.data.author);
-
   return (
     <section className={styles.boardDetail}>
       <div className={styles.recipeWrapper}>
         <div className={styles.leftRecipeInfo}>
           <div className={styles.imgBox}>
-            <img
-              alt="레시피 이미지"
-              src={props.data?.imgSrc ? props.data?.imgSrc : '/user/default_user.svg'}
-            />
+            <img alt="레시피 이미지" src={props.data?.imgSrc ? props.data?.imgSrc : '/test.png'} />
             {props.data?.author === loginUser.email && (
               <div className={styles.buttons}>
                 <EditButton boardId={props.boardId} editData={props.data} />

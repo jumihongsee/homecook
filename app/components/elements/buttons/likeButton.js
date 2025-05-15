@@ -1,17 +1,23 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './button.module.scss';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function LikeButton(props) {
   const [like, setLike] = useState(props.likesStatus);
+  // const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(props.likes || 0);
   const router = useRouter();
 
-  // 로그인시 session.data 들어옴
-  // 미로그인시 session.data = null
+  // likes의 상태가 변화 했을때 그때 상태를 like에 반영해준다 > 리스트 용
+  useEffect(() => {
+    setLike(props.likesStatus);
+  }, [props.likesStatus]);
+
   const session = useSession();
+
+  console.log(props.likesStatus);
 
   const handleLike = likeInvert => {
     if (!session.data) return;
@@ -28,6 +34,9 @@ export default function LikeButton(props) {
       const res = await r.json();
       setLikeCount(res.likes);
       console.log(res);
+
+      // 리스트 > 디테일 페이지로 이동시 리프레시 해줘야 반영됨
+      router.refresh();
     });
   };
 

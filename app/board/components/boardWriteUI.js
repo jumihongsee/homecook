@@ -388,10 +388,6 @@ export default function BoardWriteUI(props) {
           <button className={styles.submit} type="submit">
             레시피 {isEdit ? '수정' : '등록'}
           </button>
-          git commit -m "(추가) 게시글 등록/수정 기능 완성 및 코드 리팩토링 - 게시글 등록/수정 기능
-          통합 및 recipeSubmit 유틸로 분리 - 이미지 수정시 기존 이미지 삭제 후 새 이미지 업로드 처리
-          - 게시글 수정시 API 구현(PUT 메서드 + 쿼리스트링 활용) - UI 컴포넌트 내 onSubmit에서 유틸
-          함수 호출 방식 적용 - 코드 길이 최적화 및 가독성 향상"
         </div>
         <div className={styles.guide}>
           <h1>🍳 레시피 등록 가이드</h1>
