@@ -10,7 +10,7 @@ export default function Header(props) {
 
   useEffect(() => {
     function scroll() {
-      if (window.scrollY > 25) {
+      if (window.scrollY > 100) {
         setHeaderFix(true);
       } else {
         setHeaderFix(false);
@@ -44,7 +44,12 @@ export default function Header(props) {
       <ul>
         {props.userData ? (
           <div className={styles.logIn}>
-            <div className={styles.profile}>
+            <div
+              className={styles.profile}
+              onClick={() => {
+                props.userData && router.push(`/user/mypage/${props.userData?._id}`);
+              }}
+            >
               <img
                 src={props.userData.image ? `${props.userData?.image}` : '/user/default_user.svg'}
               />

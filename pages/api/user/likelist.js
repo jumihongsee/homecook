@@ -4,8 +4,8 @@ import { connectDB } from '@/util/database';
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
-  const userEmail = session.user.email;
-  console.log(userEmail);
+
+  const userEmail = session?.user.email;
 
   // 현재 로그인 한 유저가 boardId를 좋아요를 하고 있는지 아닌지 확인.
   const db = (await connectDB).db('homecook');

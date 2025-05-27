@@ -126,6 +126,8 @@ export async function RecipeSubmit({
       imgSrc: imgUrl,
       author,
       likes: 0,
+      view: 0,
+      createAt: new Date(),
     };
 
     const res = await fetch('/api/recipe/new', {
@@ -187,6 +189,7 @@ export async function RecipeSubmit({
       imgSrc: imgUrl,
       author: editData.author,
       likes: editData.likes,
+      updateAt: new Date(),
     };
 
     //레시피 데이터 수정

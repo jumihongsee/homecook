@@ -16,6 +16,7 @@ export default async function handler(req, res) {
       req.body.password = hash;
 
       await db.collection('users').insertOne(req.body);
+      return res.status(200).json({ message: '회원가입이 완료되었습니다.' });
     }
   }
 }

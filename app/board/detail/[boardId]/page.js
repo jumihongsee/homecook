@@ -7,6 +7,12 @@ export default async function BoardDetail({ params }) {
 
   const db = (await connectDB).db('homecook');
   let data = await db.collection('recipe').findOne({ _id: new ObjectId(boardId) });
+
+  // 게시글 상세 보기시에 view Count 증가시키기.
+  await db
+    .collection('recipe')
+    .updateOne({ _id: new ObjectId(boardId) }, { $inc: { viewCount: 1 } });
+
   // 레시피 작성자 유저 정보
   let userInfo = '';
 

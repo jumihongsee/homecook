@@ -1,97 +1,52 @@
 'use client';
 import { useState } from 'react';
 import styles from '../styles/user.module.scss';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-
-export default function RegisterUI() {
-  const [name, setName] = useState('');
+import { signIn } from 'next-auth/react';
+export default function LoginUI() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [nameAlert, setNameAlert] = useState('');
   const [emailAlert, setEmailAlert] = useState('');
   const [passwordAlert, setPasswordAlert] = useState('');
-  const innerCharacters = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]).{8,}$/;
+  const [errorMsg, setErrorMsg] = useState('');
 
   const router = useRouter();
 
-  const handleSubmit = async () => {
-    let hasError = false;
+  const handleSubmit = async e => {
+    e.preventDefault();
 
-    if (!name.trim()) {
-      setNameAlert('✔ 이름을 입력해주세요');
-      hasError = true;
-    } else if (name.trim().length <= 1) {
-      setNameAlert('✔ 이름은 두글자 이상 입력해주세요');
-      hasError = true;
-    }
     if (!email.trim()) {
       setEmailAlert('✔ 이메일을 입력해주세요');
-      hasError = true;
+      return;
     }
     if (!password.trim()) {
       setPasswordAlert('✔ 비밀번호를 입력해주세요');
-      hasError = true;
-    } else if (!innerCharacters.test(password)) {
-      setPasswordAlert('✔ 8자 이상, 영문+숫자+특수문자를 포함해주세요');
-      hasError = true;
+      return;
     }
 
-    if (hasError) return;
-
-    let data = {
-      name,
+    const res = await signIn('credentials', {
+      redirect: false,
       email,
       password,
-    };
-
-    await fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(async r => {
-      if (r.ok) {
-        const login = await signIn('credentials', {
-          redirect: false,
-          email,
-          password,
-        });
-        if (login.ok) {
-          router.push('/api/auth/signin');
-        }
-      } else {
-        const err = await r.json();
-        setEmailAlert(err.message);
-      }
     });
+
+    if (res.ok) {
+      router.push('/');
+      router.refresh();
+    } else {
+      setErrorMsg('✔ 이메일 또는 비밀번호가 올바르지 않습니다.');
+    }
   };
 
   return (
-    <section className={styles.register}>
+    <section className={styles.login}>
       <h1 className={styles.logo}>LOGO</h1>
       <div className={styles.topTitle}>
-        <p>회원가입 페이지</p>
+        <p>로그인 페이지</p> <span className={styles.alert}>{errorMsg}</span>
       </div>
 
       <div>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-        >
-          <div>
-            <span>{nameAlert}</span>
-            <input
-              type="text"
-              name="name"
-              placeholder="이름을 입력해주세요"
-              onChange={e => {
-                setNameAlert('');
-                setName(e.target.value);
-              }}
-            />
-          </div>
+        <form onSubmit={handleSubmit}>
           <div>
             <span>{emailAlert}</span>
             <input
@@ -118,7 +73,7 @@ export default function RegisterUI() {
           </div>
 
           <button className={styles.originSignUp} type="submit">
-            회원 가입하기
+            로그인 하기
           </button>
         </form>
       </div>

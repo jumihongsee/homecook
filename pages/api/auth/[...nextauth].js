@@ -6,6 +6,7 @@ import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcrypt';
+import { signIn } from 'next-auth/react';
 
 export const authOptions = {
   providers: [
@@ -44,7 +45,9 @@ export const authOptions = {
       },
     }),
   ],
-
+  pages: {
+    signIn: '/user/login',
+  },
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, //30일
