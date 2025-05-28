@@ -24,13 +24,21 @@ export default function Header(props) {
       <div className={styles.logo} onClick={() => router.push('/')}>
         로고
       </div>
-      <ul>
+      <ul className={styles.subList}>
         <li
           onClick={() => {
             router.push('/board/list');
           }}
         >
           전체 레시피
+        </li>
+
+        <li
+          onClick={() => {
+            router.push('/search');
+          }}
+        >
+          레시피 검색
         </li>
         <li>인기 레시피</li>
         <li
@@ -41,7 +49,16 @@ export default function Header(props) {
           레시피 등록
         </li>
       </ul>
-      <ul>
+
+      <ul className={styles.infoAndSearch}>
+        <div
+          className={styles.search}
+          onClick={() => {
+            router.push('/search');
+          }}
+        >
+          <img src="/header/search.svg" alt="검색 이미지" />
+        </div>
         {props.userData ? (
           <div className={styles.logIn}>
             <div
@@ -65,6 +82,7 @@ export default function Header(props) {
         ) : (
           <>
             <li
+              className={styles.signIn}
               onClick={() => {
                 signIn();
               }}

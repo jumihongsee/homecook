@@ -43,9 +43,18 @@
   }
   ul {
     display: flex;
-    &:first-child {
+    align-items: center;
+    &.subList {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
-    &:last-child {
+    &.infoAndSearch {
+      li {
+        &.signIn {
+          margin-left: 10px;
+        }
+      }
     }
 
     li {
@@ -53,9 +62,28 @@
       cursor: pointer;
       margin-right: 20px;
       font-size: 14px;
+
       &:last-child {
         margin: 0;
       }
+    }
+  }
+  .search {
+    width: 200px;
+    margin-right: 5px;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #222;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+    img {
+      height: 20px;
+      filter: invert(1);
     }
   }
 }

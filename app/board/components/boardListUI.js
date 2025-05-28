@@ -7,7 +7,14 @@ import EditButton from '@/app/components/elements/buttons/recipeEditButton';
 import DeleteButton from '@/app/components/elements/buttons/recipeDeleteButton';
 
 export default function BoardUI(props) {
-  const data = JSON.parse(props.data);
+  // 검색 리스트일 경우 json.parse 를 해주면 안된다.
+  let data = '';
+  if (props.status === 'search') {
+    data = props.data;
+  } else {
+    data = JSON.parse(props.data);
+  }
+
   const router = useRouter();
   const [loginUser, setLoginUser] = useState(null);
 
@@ -29,7 +36,19 @@ export default function BoardUI(props) {
     <>
       <section className={styles.boardList}>
         <section>
-          <h2>00개의 전체 레시피</h2>
+          {data.length > 0 && (
+            <div className={styles.titleWrapper}>
+              <h2 className={styles.boardTitle}>
+                {props.status === 'search' && props.searchTitle?.length > 0 && (
+                  <>
+                    <strong>'{props.searchTitle}' </strong>로 검색된
+                  </>
+                )}
+                <strong> {data.length}</strong>개의 전체 레시피
+              </h2>
+              <p>맛있는 한끼를 위하여!</p>
+            </div>
+          )}
         </section>
 
         <ul className={styles.recipeWrapper}>

@@ -1,7 +1,7 @@
 // import { useRouter } from 'next/navigation'
 
 import { connectDB } from '../../../util/database';
-import BoardUI from './boardList.presenter';
+import BoardUI from '../components/boardListUI';
 export default async function BoardListContainer() {
   const db = (await connectDB).db('homecook');
   const data = await db.collection('recipe').find().toArray();
