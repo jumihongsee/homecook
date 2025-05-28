@@ -1,15 +1,18 @@
 'use client';
 import styles from './mypage.module.scss';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { act, useEffect, useState } from 'react';
 import MyRecipeList from './components/myrecipeList';
+import MyCommentList from './components/mycommentList';
+import MyLikesRecipeList from './components/mylikesRecipe';
 export default function MypageUI() {
   const params = useParams();
   const router = useRouter();
   const userId = params.userId;
-  const [activeTab, setActiveTab] = useState('written');
+  const [activeTab, setActiveTab] = useState('likes');
   const [userInfo, setUserInfo] = useState([]);
-  const [myRecipe, setMyRecipe] = useState([]);
+  const [myPageData, setMyPageData] = useState([]);
+  const [dataCount, setDataCount] = useState(0);
 
   // api > user 정보 조회 + 유저가 쓴 글들 페이지 진입시 데이터 받아오기
   useEffect(() => {
@@ -31,25 +34,35 @@ export default function MypageUI() {
       setUserInfo(data.userInfoData);
 
       // '내 레시피' 데이터 조회
-      const detailData = await fetch(
-        `/api/user/mypage?status=written&userEmail=${data.userInfoData.email}`
-      );
+      // status 상태에 따라 받아오는 데이터가 달라야함.
+      // 1. written => recipe 컬렉션에서 유저가 쓴 글 조회
+      // 2. comments =>  comments 컬렉션에서 유저가 쓴 댓글 조회
+      // 3. likes => users 컬렉션에서 좋아요 한 레시피 조회
 
+      let dataUrl = '';
+      if (activeTab === 'written') {
+        dataUrl = `/api/user/mypage?status=written&userEmail=${data.userInfoData.email}`;
+      } else if (activeTab === 'comments') {
+        dataUrl = `/api/user/mypage?status=comments&author=${data.userInfoData.email}`;
+      } else if (activeTab === 'likes') {
+        dataUrl = `/api/user/mypage?status=likes&userEmail=${data.userInfoData.email}`;
+      }
+
+      // const detailData = await fetch(
+      //   `/api/user/mypage?status=written&userEmail=${data.userInfoData.email}`
+      // );
+      const detailData = await fetch(dataUrl);
       const detailJson = await detailData.json();
 
       const recipeData = detailJson.data;
-      setMyRecipe(recipeData);
+      setMyPageData(recipeData);
+      setDataCount(recipeData.length);
     };
     fetchUserInfo();
-  }, []);
+  }, [activeTab]);
 
   // console.log(userInfo);
-  // console.log(myRecipe);
-
-  // status 상태에 따라 받아오는 데이터가 달라야함.
-  // 1. written => recipe 컬렉션에서 유저가 쓴 글 조회
-  // 2. comments =>  comments 컬렉션에서 유저가 쓴 댓글 조회
-  // 3. likes => users 컬렉션에서 좋아요 한 레시피 조회
+  // console.log(myPageData);
 
   return (
     <section className={styles.mypageWrapper}>
@@ -99,9 +112,11 @@ export default function MypageUI() {
           </button>
         </div>
         <div className={styles.contents}>
-          <p>전체 ({myRecipe?.length}) 개의 레시피</p>
+          <p>전체 ({dataCount}) 개의 게시글</p>
           <div className={styles.contentsWrapper}>
-            <MyRecipeList data={myRecipe} />
+            {activeTab === 'written' && <MyRecipeList data={myPageData} />}
+            {activeTab === 'comments' && <MyCommentList data={myPageData} count={setDataCount} />}
+            {activeTab === 'likes' && <MyLikesRecipeList data={myPageData} />}
           </div>
         </div>
       </div>

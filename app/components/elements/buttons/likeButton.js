@@ -33,10 +33,13 @@ export default function LikeButton(props) {
     }).then(async r => {
       const res = await r.json();
       setLikeCount(res.likes);
-      console.log(res);
+      // console.log(res);
 
       // 리스트 > 디테일 페이지로 이동시 리프레시 해줘야 반영됨
       router.refresh();
+      if (props.unLike) {
+        props.unLike(props.boardId);
+      }
     });
   };
 
