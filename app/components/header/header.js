@@ -6,25 +6,13 @@ import { useEffect, useState } from 'react';
 
 export default function Header(props) {
   const router = useRouter();
-  const [headerFix, setHeaderFix] = useState(false);
-
-  useEffect(() => {
-    function scroll() {
-      if (window.scrollY > 100) {
-        setHeaderFix(true);
-      } else {
-        setHeaderFix(false);
-      }
-    }
-    window.addEventListener('scroll', scroll);
-  }, []);
 
   return (
-    <header className={`${styles.header} ${headerFix && styles.fixed}`}>
-      <div className={styles.logo} onClick={() => router.push('/')}>
-        로고
+    <header className={`${styles.header}`}>
+      <div className={styles.logo} onClick={() => router.push('/')} id="logo">
+        HOME COOK
       </div>
-      <ul className={styles.subList}>
+      <ul className={styles.subList} id="subList">
         <li
           onClick={() => {
             router.push('/board/list');

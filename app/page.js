@@ -1,6 +1,5 @@
-import Image from 'next/image';
-import styles from './page.module.css';
+import MainPerformance from './components/main/mainPerformance';
 
 export default function Home() {
-  return <div className={styles.page}></div>;
+  return <MainPerformance />;
 }

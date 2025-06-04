@@ -4,9 +4,9 @@
   --foreground: #171717;
   --main-color: #fee349;
   --sub-color: #f4f4f4;
-  --effect-color: rgba(233, 156, 1, 0.902);
+  --effect-color: #ffa127;
   --main-width-padding: 0 10vw 100px;
-  --title-padding: 60px 0;
+  --title-padding: 120px 0 60px;
 }
 
 @font-face {
@@ -14,6 +14,20 @@
   src: url('/fonts/SUIT-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'VITRO';
+  src: url('/fonts/VITRO_CORE_TTF.ttf') format('truetype');
+  /* font-weight: 400; */
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'PyeoJin';
+  src: url('/fonts/PyeojinGothic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: bold;
 }
 
 body {

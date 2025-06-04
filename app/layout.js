@@ -40,9 +40,8 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header userData={userData} />
-        <AuthProvider>{children}</AuthProvider>
-
-        {/* <Footer /> */}
+        <AuthProvider userData={userData}>{children}</AuthProvider>
+        <Footer />
       </body>
     </html>
   );

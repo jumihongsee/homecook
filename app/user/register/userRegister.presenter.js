@@ -68,7 +68,7 @@ export default function RegisterUI() {
 
   return (
     <section className={styles.register}>
-      <h1 className={styles.logo}>LOGO</h1>
+      <h1 className={styles.logo}>HOME COOK</h1>
       <div className={styles.topTitle}>
         <p>회원가입 페이지</p>
       </div>

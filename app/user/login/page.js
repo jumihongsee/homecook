@@ -40,7 +40,7 @@ export default function LoginUI() {
 
   return (
     <section className={styles.login}>
-      <h1 className={styles.logo}>LOGO</h1>
+      <h1 className={styles.logo}>HOME COOK</h1>
       <div className={styles.topTitle}>
         <p>로그인 페이지</p> <span className={styles.alert}>{errorMsg}</span>
       </div>

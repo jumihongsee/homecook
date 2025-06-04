@@ -9,16 +9,17 @@
   transform: translateY(0);
   position: relative;
   z-index: 999;
-  &.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    backdrop-filter: blur(10px);
-    z-index: 999;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(10px);
+  z-index: 999;
 
   .logo {
     cursor: pointer;
+    font-weight: bold;
+    font-family: 'VITRO';
+    color: #ffa127;
   }
   .profile {
     width: 30px;
@@ -39,6 +40,8 @@
     button {
       margin-left: 20px;
       font-size: 12px;
+
+      font-family: 'VITRO';
     }
   }
   ul {
@@ -58,11 +61,10 @@
     }
 
     li {
-      color: #000;
       cursor: pointer;
       margin-right: 20px;
       font-size: 14px;
-
+      font-weight: bold;
       &:last-child {
         margin: 0;
       }
