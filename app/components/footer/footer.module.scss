@@ -1,5 +1,7 @@
+@import '@/styles/variables';
+
 .footer {
-  height: 100px;
+  min-height: 100px;
   background: #000;
   color: #fff;
   padding: 20px 50px;
@@ -14,7 +16,7 @@
         font-weight: bold;
         font-family: 'VITRO';
         cursor: pointer;
-        color: var(--effect-color);
+        color: $effect-color;
         font-size: 16px;
         margin-right: 20px;
       }
@@ -32,6 +34,31 @@
       p {
         text-transform: uppercase;
         font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .footer {
+    padding: 20px;
+    > div {
+      &.top {
+        flex-direction: column;
+        align-items: flex-start;
+        h2 {
+          margin-bottom: 20px;
+        }
+        nav {
+          a {
+            font-size: 14px;
+          }
+        }
+      }
+      &.bottom {
+        p {
+          font-size: 14px;
+        }
       }
     }
   }

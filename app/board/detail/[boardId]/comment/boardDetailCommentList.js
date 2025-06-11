@@ -64,6 +64,7 @@ export default function BoardCommentList(props) {
               <h3>
                 {item.name ? item.name : item.author} <span>{Time(item.createdAt)}</span>
               </h3>
+              {item.author === props.author && <div className={styles.authorTag}>작성자</div>}
             </div>
             {loginUser === item.author && (
               <div className={styles.rightSection}>

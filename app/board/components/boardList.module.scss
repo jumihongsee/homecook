@@ -1,12 +1,20 @@
+@import '@/styles/variables';
+
+.boardList.searchList {
+  section {
+    padding: 50px 0;
+  }
+}
 .boardList {
   width: 100%;
-  padding: var(--main-width-padding);
+  padding: $main-width-padding;
+  min-height: 100vh;
   section {
     width: 100%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    padding: var(--title-padding);
+    padding: $title-padding;
     margin-left: 20px;
   }
   .titleWrapper {
@@ -15,8 +23,9 @@
     .boardTitle {
       font-size: 20px;
       margin-right: 10px;
+
       strong {
-        color: var(--effect-color);
+        color: $effect-color;
         margin-right: 5px;
         font-weight: bold;
       }
@@ -35,9 +44,9 @@
     .recipeBox {
       height: auto;
       width: calc((100% / 3) - 40px);
-      margin: 0 20px 30px;
+      margin: 0 20px 40px;
       border-radius: 10px;
-      border: 2px solid #000;
+      border: 1px solid #000;
       cursor: pointer;
       padding: 15px;
       .imgBox {
@@ -49,10 +58,10 @@
         border-radius: 5px;
         position: relative;
         overflow: hidden;
-        border: 2px solid var(--sub-color);
+
         img {
-          height: 100%;
           width: 100%;
+          border-radius: 10px;
         }
         > div {
           position: absolute;
@@ -78,7 +87,7 @@
               height: 100%;
               display: flex;
               align-items: center;
-              color: var(--main-color);
+              color: $main-color;
               border-radius: 0 10px 10px 0;
               img {
                 height: 60%;
@@ -104,6 +113,9 @@
           line-height: 1.5;
           h3 {
             font-size: 17px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           p {
             font-size: 14px;
@@ -121,11 +133,41 @@
             font-size: 13px;
             padding: 5px 10px;
             border-radius: 5px;
-            background: var(--sub-color);
+            background: $main-color;
             &:first-child {
-              background: var(--main-color);
+              background: $main-color;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $tablet) {
+  .boardList {
+    .recipeWrapper {
+      .recipeBox {
+        width: calc((100% / 2) - 40px);
+        .imgBox {
+          height: calc((80vw / 2.3) - 60px);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .boardList {
+    section {
+      margin-left: 0;
+    }
+    .recipeWrapper {
+      .recipeBox {
+        width: 100%;
+        margin: 0 0 30px;
+        .imgBox {
+          height: calc(80vw - 60px);
         }
       }
     }

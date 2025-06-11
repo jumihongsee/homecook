@@ -18,7 +18,7 @@ export default function BoardComment(props) {
 
   return (
     <>
-      <BoardCommentList data={comment} fetchListData={listData} />
+      <BoardCommentList data={comment} fetchListData={listData} author={props.author} />
       <BoardCommentNew boardId={props.boardId} fetchListData={listData} />
     </>
   );

@@ -6,10 +6,9 @@ export default function Footer() {
       <div className={styles.top}>
         <h2>HOME COOK</h2>
         <nav>
-          <a href="/recipes">전체 레시피</a>
-          <a href="/register">레시피 등록</a>
-          <a href="/mypage">마이페이지</a>
-          <a href="/contact">문의하기</a>
+          <a href="">전체 레시피</a>
+          <a href="">레시피 검색</a>
+          <a href="">레시피 등록</a>
         </nav>
       </div>
       <div className={styles.bottom}>

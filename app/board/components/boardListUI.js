@@ -26,7 +26,6 @@ export default function BoardUI(props) {
       const data = await res.json();
       const userBoardList = data.userLikesBoard;
       setUserLikesBoard(userBoardList);
-      console.log(data.userLogin);
       setLoginUser(data.userLogin);
     };
     fetchUserLikes();
@@ -34,7 +33,9 @@ export default function BoardUI(props) {
 
   return (
     <>
-      <section className={styles.boardList}>
+      <section
+        className={`${styles.boardList} ${props.status === 'search' ? styles.searchList : ''}`}
+      >
         <section>
           {data.length > 0 && (
             <div className={styles.titleWrapper}>
@@ -90,12 +91,12 @@ export default function BoardUI(props) {
                       <p>{item?.script}</p>
                     </div>
                     <ul className={styles.labelList}>
-                      <li>{item?.author}</li>
+                      <li>{item?.authorName}</li>
                       <li>{item.time}분 이내</li>
                       <li>
                         {item.difficulty === 'easy' && <span>쉬움</span>}
                         {item.difficulty === 'normal' && <span>보통</span>}
-                        {item.difficulty === 'difficult' && <span>어려움</span>}
+                        {item.difficulty === 'hard' && <span>어려움</span>}
                       </li>
                     </ul>
                   </div>

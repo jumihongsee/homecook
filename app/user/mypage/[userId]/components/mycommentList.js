@@ -48,7 +48,7 @@ export default function MyCommentList(props) {
                     handleDelete(item._id);
                   }}
                 >
-                  댓글삭제
+                  삭제
                 </button>
               </div>
             </div>

@@ -2,11 +2,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --main-color: #fee349;
-  --sub-color: #f4f4f4;
-  --effect-color: #ffa127;
-  --main-width-padding: 0 10vw 100px;
-  --title-padding: 120px 0 60px;
 }
 
 @font-face {
@@ -30,10 +25,19 @@
   font-style: bold;
 }
 
+@font-face {
+  font-family: 'sandBox';
+  src: url('/fonts/sandBox.ttf') format('truetype');
+  font-weight: 700;
+  font-style: bold;
+}
+
 body {
   font-family: 'SUITE', sans-serif;
 }
-
+html.fixed {
+  overflow: hidden;
+}
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

@@ -9,7 +9,7 @@ export default function MypageUI() {
   const params = useParams();
   const router = useRouter();
   const userId = params.userId;
-  const [activeTab, setActiveTab] = useState('likes');
+  const [activeTab, setActiveTab] = useState('written');
   const [userInfo, setUserInfo] = useState([]);
   const [myPageData, setMyPageData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
@@ -78,7 +78,6 @@ export default function MypageUI() {
           <h2>{userInfo?.name}</h2>
           <p>{userInfo?.email}</p>
           <div className={styles.buttons}>
-            <button>정보 수정</button>
             <button>로그아웃</button>
           </div>
         </div>
@@ -91,7 +90,8 @@ export default function MypageUI() {
               setActiveTab('written');
             }}
           >
-            <img src="/user/mypageWrite.svg" alt="마이페이지 레시피 목록 픽토그램" /> 내 레시피
+            <img src="/user/mypageWrite.svg" alt="마이페이지 레시피 목록 픽토그램" />{' '}
+            <span>내 레시피</span>
           </button>
           <button
             className={activeTab === 'comments' ? styles.active : ''}
@@ -99,7 +99,8 @@ export default function MypageUI() {
               setActiveTab('comments');
             }}
           >
-            <img src="/user/mypageComment.svg" alt="마이페이지 댓글 픽토그램" /> 내 댓글
+            <img src="/user/mypageComment.svg" alt="마이페이지 댓글 픽토그램" />{' '}
+            <span>내 댓글</span>
           </button>
           <button
             className={activeTab === 'likes' ? styles.active : ''}
@@ -108,7 +109,7 @@ export default function MypageUI() {
             }}
           >
             <img src="/user/mypageHeart.svg" alt="마이페이지 좋아요하트 픽토그램" />
-            좋아요 한 레시피
+            <span>좋아요 한 레시피</span>
           </button>
         </div>
         <div className={styles.contents}>

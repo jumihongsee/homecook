@@ -5,8 +5,6 @@ export default function DeleteButton(props) {
   const router = useRouter();
   // board Id 값 가져와서 진행
   // 이미지 삭제도진행 Src 값을 반환해서 s3 저장소에 있는 값 삭제 /api/recipe/image/delete
-  // console.log(props.boardId);
-  // console.log(props.imgSrc);
 
   const handleDelete = async () => {
     //이미지 삭제

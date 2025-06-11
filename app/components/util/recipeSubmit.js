@@ -13,6 +13,7 @@ export async function RecipeSubmit({
   script,
   author,
   router,
+  authorName,
   setTitleAlert,
   setScriptAlert,
   setThemaFocus,
@@ -64,10 +65,11 @@ export async function RecipeSubmit({
   }
 
   const emptyIngredient = ingredient.findIndex(
-    item => !item.name.trim() || !item.quantity.trim() || !item.gram.trim()
+    item => !item.name.trim()
+    // || !item.quantity.trim() || !item.gram.trim()
   );
   if (emptyIngredient !== -1) {
-    setIngredientAlert(`✔ ${emptyIngredient + 1} 번째 재료 정보를 모두 입력해 주세요`);
+    setIngredientAlert(`✔ ${emptyIngredient + 1} 번째 재료 이름을 모두 입력해주세요`);
     hasError = true;
   } else {
     setIngredientAlert('');
@@ -125,6 +127,7 @@ export async function RecipeSubmit({
       script,
       imgSrc: imgUrl,
       author,
+      authorName,
       likes: 0,
       view: 0,
       createAt: new Date(),
@@ -188,6 +191,7 @@ export async function RecipeSubmit({
       script,
       imgSrc: imgUrl,
       author: editData.author,
+      authorName: editData.authorName,
       likes: editData.likes,
       updateAt: new Date(),
     };

@@ -53,16 +53,17 @@ export default function search() {
           <option value="title">제목으로 검색</option>
           <option value="ingredient">재료로 검색</option>
         </select>
-
-        <input
-          type="text"
-          placeholder="검색어를 입력하세요"
-          value={searchKeyword}
-          onChange={e => {
-            setSearchKeyword(e.target.value);
-          }}
-        />
-        <button type="submit">검색하기</button>
+        <div>
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={searchKeyword}
+            onChange={e => {
+              setSearchKeyword(e.target.value);
+            }}
+          />
+          <button type="submit">검색하기</button>
+        </div>
       </form>
       <div className={styles.tagSearch}>
         <h3>키워드 별 레시피 리스트</h3>

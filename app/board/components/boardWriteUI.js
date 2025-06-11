@@ -3,8 +3,10 @@ import { use, useEffect, useState } from 'react';
 import styles from './boardWrite.module.scss';
 import { usePathname, useRouter } from 'next/navigation';
 import { RecipeSubmit } from '@/app/components/util/recipeSubmit';
+import { useSession } from 'next-auth/react';
 
 export default function BoardWriteUI(props) {
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   // boardId 받아오기 (* client 컴포넌트에서는  params 쓰는건 적절치 않을 수 있음)
@@ -75,6 +77,13 @@ export default function BoardWriteUI(props) {
   // isEdit가 감지 될때마다 + isEdit가 true(수정) 상태일때  useEffect 사용해서 fetch 보내기.
 
   useEffect(() => {
+    // 로그인 안한 유저 로그인페이지로 보내기
+    if (status === 'loading') return;
+    if (!session) {
+      alert('로그인이 필요합니다');
+      router.push('/user/login');
+    }
+
     if (isEdit === true) {
       fetch(`/api/recipe/list?boardId=${editBoardId}`, {
         method: 'GET',
@@ -111,7 +120,7 @@ export default function BoardWriteUI(props) {
         <h2>
           레시피 {isEdit ? '수정' : '등록'}
           <span>
-            {'___'}님 만의 <strong>황금</strong> 레시피를 등록해 보세요
+            <strong>{props.name}</strong>님 만의 <strong>황금</strong> 레시피를 등록해 보세요
           </span>
         </h2>
       </div>
@@ -130,6 +139,7 @@ export default function BoardWriteUI(props) {
             difficulty,
             script,
             author: props.author,
+            authorName: props.name,
             router,
             editBoardId,
             setTitleAlert,

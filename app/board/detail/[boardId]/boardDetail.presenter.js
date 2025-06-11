@@ -64,13 +64,13 @@ export default async function BoardDetailUI(props) {
               {props.data?.thema === 'drink' && <div># 혼술안주</div>}
 
               <div># {props.data?.time}분이내</div>
-            </div>
-            <div className={styles.likes}>
-              <LikeButton
-                boardId={props.boardId}
-                likes={props.data.likes}
-                likesStatus={likesStatus}
-              />
+              <div className={styles.likes}>
+                <LikeButton
+                  boardId={props.boardId}
+                  likes={props.data.likes}
+                  likesStatus={likesStatus}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -89,7 +89,9 @@ export default async function BoardDetailUI(props) {
                 <div className={styles.item} key={index}>
                   <h2>{item.name}</h2>
                   <p>
-                    {item.quantity} ( {item.gram}그램 )
+                    {item.quantity && `( ${item.quantity} )개`}
+                    {item.gram && `( ${item.gram} )그램`}
+                    {!item.quantity && !item.gram && `( 취향것 )`}
                   </p>
                 </div>
               ))}
@@ -109,7 +111,7 @@ export default async function BoardDetailUI(props) {
               ))}
             </div>
           </div>
-          <BoardComment boardId={props.boardId} />
+          <BoardComment boardId={props.boardId} author={props.data.author} />
         </div>
       </div>
     </section>

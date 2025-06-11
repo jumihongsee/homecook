@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './main.module.scss';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function MainPerformance() {
@@ -89,6 +88,8 @@ export default function MainPerformance() {
 
   // [공통함수] fixed Text
   const fixedTextStatus = (visible = true) => {
+    if (!fixedTextRefs.current.every(ref => ref)) return; // 다른 페이지 이동시 null 오류 방지
+
     gsap.to(fixedTextRefs.current, {
       opacity: visible ? 1 : 0,
       duration: 0,
@@ -346,8 +347,9 @@ export default function MainPerformance() {
   };
 
   useEffect(() => {
+    if (session.status === 'loading') return;
     headerRef.current = document.querySelector('#logo');
-    console.log(headerRef);
+
     const { tls1, scrollTriggerS1 } = mainAnimation();
     const { tls2, scrollTriggerS2 } = textAnimation();
     const { tls3, scrollTriggerS3 } = sharePartAnimation();
@@ -360,14 +362,14 @@ export default function MainPerformance() {
       tls1.kill();
       scrollTriggerS2.kill();
       tls2.kill();
-      scrollTriggerS3.kill();
-      tls3.kill();
-      scrollTriggerS4.kill();
-      tls4.kill();
+      scrollTriggerS3?.kill();
+      tls3?.kill();
+      scrollTriggerS4?.kill();
+      tls4?.kill();
       scrollTriggerS5.kill();
       tls5.kill();
     };
-  }, []);
+  }, [session.status]);
 
   return (
     <main ref={mainRef} className={styles.main}>
@@ -500,7 +502,6 @@ export default function MainPerformance() {
           </div>
         </div>
       </section>
-      {/* <section className={styles.section06}></section> */}
     </main>
   );
 }
