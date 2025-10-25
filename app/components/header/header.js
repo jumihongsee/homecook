@@ -30,7 +30,6 @@ export default function Header(props) {
       <ul className={styles.subList} id="subList">
         <li
           onClick={() => {
-            router.refresh();
             router.push('/board/list');
           }}
         >
@@ -39,7 +38,6 @@ export default function Header(props) {
 
         <li
           onClick={() => {
-            router.refresh();
             router.push('/search');
           }}
         >
@@ -47,7 +45,6 @@ export default function Header(props) {
         </li>
         <li
           onClick={() => {
-            router.refresh();
             props.userData ? router.push('/board/new') : signIn();
           }}
         >
@@ -59,7 +56,6 @@ export default function Header(props) {
         <div
           className={styles.search}
           onClick={() => {
-            router.refresh();
             router.push('/search');
           }}
         >
@@ -70,7 +66,6 @@ export default function Header(props) {
             <div
               className={styles.profile}
               onClick={() => {
-                router.refresh();
                 props.userData && router.push(`/user/mypage/${props.userData?._id}`);
               }}
             >
@@ -81,7 +76,6 @@ export default function Header(props) {
             </div>
             <button
               onClick={() => {
-                router.refresh();
                 signOut();
               }}
             >
@@ -93,7 +87,6 @@ export default function Header(props) {
             <li
               className={styles.signIn}
               onClick={() => {
-                router.refresh();
                 signIn();
               }}
             >
@@ -101,7 +94,6 @@ export default function Header(props) {
             </li>
             <li
               onClick={() => {
-                router.refresh();
                 router.push('/user/register');
               }}
             >
@@ -115,7 +107,6 @@ export default function Header(props) {
         <div
           className={styles.search}
           onClick={() => {
-            router.refresh();
             setIsActive(false);
             router.push('/search');
           }}
@@ -125,7 +116,6 @@ export default function Header(props) {
         <div
           className={`${styles.hamNav} ${isActive ? styles.active : ''}`}
           onClick={() => {
-            router.refresh();
             setIsActive(prev => !prev);
           }}
         >
@@ -141,7 +131,6 @@ export default function Header(props) {
                   <div
                     className={styles.profile}
                     onClick={() => {
-                      router.refresh();
                       setIsActive(false);
                       props.userData && router.push(`/user/mypage/${props.userData?._id}`);
                     }}
@@ -155,7 +144,6 @@ export default function Header(props) {
                   </div>
                   <button
                     onClick={() => {
-                      router.refresh();
                       setIsActive(false);
                       signOut();
                     }}
@@ -169,7 +157,6 @@ export default function Header(props) {
                 <li
                   className={styles.signIn}
                   onClick={() => {
-                    router.refresh();
                     setIsActive(false);
                     signIn();
                   }}
@@ -178,7 +165,6 @@ export default function Header(props) {
                 </li>
                 <li
                   onClick={() => {
-                    router.refresh();
                     setIsActive(false);
                     router.push('/user/register');
                   }}
@@ -191,7 +177,6 @@ export default function Header(props) {
           <ul>
             <li
               onClick={() => {
-                router.refresh();
                 setIsActive(false);
                 router.push('/board/list');
               }}
@@ -201,7 +186,6 @@ export default function Header(props) {
 
             <li
               onClick={() => {
-                router.refresh();
                 setIsActive(false);
                 router.push('/search');
               }}
@@ -210,7 +194,6 @@ export default function Header(props) {
             </li>
             <li
               onClick={() => {
-                router.refresh();
                 setIsActive(false);
                 props.userData ? router.push('/board/new') : signIn();
               }}
