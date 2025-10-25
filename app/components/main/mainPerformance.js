@@ -393,7 +393,7 @@ export default function MainPerformance() {
         </h2>
         <div ref={wrapperRef} className={styles.circleWrapper}>
           <div ref={circleRef} className={styles.circle}>
-            <img src="/main/main_visual_2.jpg" alt="메인 요리하고 있는 이미지" />
+            <img src="/main/main_visual_2.webp" alt="메인 요리하고 있는 이미지" />
           </div>
         </div>
       </section>
@@ -479,28 +479,37 @@ export default function MainPerformance() {
             회원 가입하기
           </button>
         </div>
-        <div className={styles.imgContainer}>
+        {/* <div className={styles.imgContainer}>
           <div className={styles.imgWrapper}>
             <div>
-              <img src="/main/section05_ parallax_1.png" alt="" />
+              <img src="/main/parallax_food_img_1.png" alt="" />
             </div>
             <div>
-              <img src="/main/section05_ parallax_2.png" alt="" />
+              <img src="/main/parallax_circle_1.png" alt="" />
             </div>
             <div>
-              <img src="/main/section05_ parallax_3.png" alt="" />
+              <img src="/main/parallax_circle_4.png" alt="" />
             </div>
             <div>
-              <img src="/main/section05_ parallax_4.png" alt="" />
+              <img src="/main/parallax_food_img_2.png" alt="" />
             </div>
             <div>
-              <img src="/main/section05_ parallax_5.png" alt="" />
+              <img src="/main/parallax_food_img_3.png" alt="" />
             </div>
             <div>
-              <img src="/main/section05_ parallax_6.png" alt="" />
+              <img src="/main/parallax_food_img_4.png" alt="" />
+            </div>
+            <div>
+              <img src="/main/parallax_circle_4.png" alt="" />
+            </div>
+            <div>
+              <img src="/main/parallax_food_img_4.png" alt="" />
+            </div>
+            <div>
+              <img src="/main/parallax_circle_3.png" alt="" />
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
     </main>
   );

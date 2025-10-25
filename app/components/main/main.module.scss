@@ -224,13 +224,13 @@
         width: inherit;
         height: inherit;
         > div {
-          width: 15vw;
-          height: 20vw;
+          // width: 15vw;
+          // height: 20vw;
           position: absolute;
           border-radius: 10px;
           opacity: 0;
           overflow: hidden;
-          border: 0.5px solid #f8d45e;
+          // border: 0.5px solid #f8d45e;
           display: flex;
           justify-content: flex-end;
           img {
@@ -325,8 +325,8 @@
       .imgContainer {
         .imgWrapper {
           > div {
-            width: 20vw;
-            height: 24vw;
+            // width: 20vw;
+            // height: 24vw;
 
             &:nth-child(3) {
               bottom: 35%;

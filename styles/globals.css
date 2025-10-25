@@ -14,8 +14,8 @@
 @font-face {
   font-family: 'VITRO';
   src: url('/fonts/VITRO_CORE_TTF.ttf') format('truetype');
-  /* font-weight: 400; */
   font-style: bold;
+  font-display: swap;
 }
 
 @font-face {
