@@ -10,6 +10,9 @@ export const metadata = {
   title: 'HOME COOK | 누구나 쉽게 만드는 집밥 레시피',
   description:
     '간단한 요리부터 다이어트, 비건, 혼술안주까지! 집밥 레시피를 쉽게 등록하고, 공유하고, 저장하세요.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default async function RootLayout({ children }) {

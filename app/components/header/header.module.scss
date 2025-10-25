@@ -53,6 +53,26 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      li {
+        position: relative;
+        &::after {
+          position: absolute;
+          content: '';
+          height: 6px;
+          width: 6px;
+          left: -10px;
+          border-radius: 50%;
+          top: 2px;
+          background: $effect-color;
+          opacity: 0;
+          transition: opacity ease 0.3s;
+        }
+        &:hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
     }
     &.infoAndSearch {
       li {
@@ -67,7 +87,7 @@
 
     li {
       cursor: pointer;
-      margin-right: 20px;
+      margin-right: 30px;
       font-size: 14px;
       font-weight: bold;
       &:last-child {
