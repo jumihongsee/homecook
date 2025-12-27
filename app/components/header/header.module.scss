@@ -21,7 +21,9 @@
     cursor: pointer;
     font-weight: bold;
     font-family: 'VITRO';
-    color: #ffa127;
+    color: $effect-color;
+    border-radius: 5px;
+    font-size: 20px;
   }
   .profile {
     width: 30px;
